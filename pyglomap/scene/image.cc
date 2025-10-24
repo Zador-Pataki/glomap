@@ -37,6 +37,11 @@ void BindImage(py::module& m) {
           "image_id",
           [](const Image& self) -> image_t { return self.image_id; },
           "The unique identifier of the image.")
+      .def_property(
+          "camera_id",
+          [](const Image& self) -> camera_t { return self.camera_id; },
+          [](Image& self, const camera_t v) { self.camera_id = v; },
+          "The camera id used by this image.")
       .def_property_readonly(
           "file_name",
           [](const Image& self) -> std::string { return self.file_name; },

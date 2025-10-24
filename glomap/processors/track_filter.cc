@@ -21,6 +21,13 @@ int TrackFilter::FilterTracksByReprojection(
 
       double reprojection_error = max_reprojection_error;
       if (in_normalized_image) {
+        if (feature_id >= image.features_undist.size()) {
+          throw std::out_of_range(
+              "feature_id " + std::to_string(feature_id) +
+              " is out of bounds for features_undist on image " +
+              std::to_string(image_id) + ". Vector size is " +
+              std::to_string(image.features_undist.size()) + ".");
+        }
         const Eigen::Vector3d& feature_undist =
             image.features_undist.at(feature_id);
 
@@ -32,6 +39,13 @@ int TrackFilter::FilterTracksByReprojection(
         Eigen::Vector2d pt_reproj = pt_calc.head(2) / pt_calc(2);
         Eigen::Vector2d pt_dist;
         pt_dist = cameras.at(image.camera_id).ImgFromCam(pt_reproj);
+        if (feature_id >= image.features.size()) {
+          throw std::out_of_range(
+              "feature_id " + std::to_string(feature_id) +
+              " is out of bounds for features on image " +
+              std::to_string(image_id) + ". Vector size is " +
+              std::to_string(image.features.size()) + ".");
+        }
         reprojection_error = (pt_dist - image.features.at(feature_id)).norm();
       }
 

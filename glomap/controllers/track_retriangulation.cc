@@ -16,6 +16,12 @@ bool RetriangulateTracks(const TriangulatorOptions& options,
                          std::unordered_map<image_t, Image>& images,
                          std::unordered_map<track_t, Track>& tracks) {
   // Following code adapted from COLMAP
+  std::cout << "Retriangulation options:" << std::endl;
+  std::cout << "  tri_complete_max_reproj_error: " << options.tri_complete_max_reproj_error << std::endl;
+  std::cout << "  tri_merge_max_reproj_error: " << options.tri_merge_max_reproj_error << std::endl;
+  std::cout << "  tri_min_angle: " << options.tri_min_angle << std::endl;
+  std::cout << "  min_num_matches: " << options.min_num_matches << std::endl;
+  std::cout << "Number of tracks before retriangulation: " << tracks.size() << std::endl;
   auto database_cache =
       colmap::DatabaseCache::Create(database,
                                     options.min_num_matches,
@@ -126,7 +132,7 @@ bool RetriangulateTracks(const TriangulatorOptions& options,
 
   // Convert the colmap data structures back to glomap data structures
   ConvertColmapToGlomap(*reconstruction_ptr, cameras, images, tracks);
-
+  std::cout << "Number of tracks after retriangulation: " << tracks.size() << std::endl;
   return true;
 }
 

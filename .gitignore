@@ -1,3 +1,7 @@
 /build
+/build_python
 /data
-/.vscode
+/.*
+compile_commands.*
+__pycache__/
+*.egg-info/

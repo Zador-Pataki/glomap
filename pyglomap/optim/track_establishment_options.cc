@@ -1,6 +1,8 @@
 
 #include "glomap/controllers/track_establishment.h"
 
+#include <sstream>
+
 #include "pyglomap/helpers.h"
 #include "pyglomap/pybind11_extension.h"
 #include <pybind11/eigen.h>
@@ -34,7 +36,22 @@ void BindTrackEstablishmentOptions(py::module& m) {
                      "The maximal number of tracks for each view pair.")
       .def_readwrite("max_num_tracks",
                      &TrackEstablishmentOptions::max_num_tracks,
-                     "The maximal number of tracks.");
+                     "The maximal number of tracks.")
+      .def("__repr__", [](const TrackEstablishmentOptions& self) {
+        std::stringstream ss;
+        ss << "TrackEstablishmentOptions(" << std::endl
+           << "  thres_inconsistency=" << self.thres_inconsistency << ","
+           << std::endl
+           << "  min_num_tracks_per_view=" << self.min_num_tracks_per_view
+           << "," << std::endl
+           << "  min_num_view_per_track=" << self.min_num_view_per_track << ","
+           << std::endl
+           << "  max_num_view_per_track=" << self.max_num_view_per_track << ","
+           << std::endl
+           << "  max_num_tracks=" << self.max_num_tracks << std::endl
+           << ")";
+        return ss.str();
+      });
 
   MakeDataclass(PyTrackEstablishmentOptions);
 }

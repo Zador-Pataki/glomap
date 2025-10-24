@@ -1,17 +1,28 @@
+# setup.py
 from setuptools import setup
-from setuptools.command.install import install
-import shutil
-import os
+from setuptools.command.build_py import build_py as _build_py
+import glob, os, shutil
 
-class CustomInstallCommand(install):
+
+class build_py(_build_py):
     def run(self):
         super().run()
-        # Copy your prebuilt .so file to the correct location
-        built_file = [x for x in os.listdir("build/pyglomap") if x.endswith(".so")][0]
-        shutil.copy(f"build/pyglomap/{built_file}", self.install_lib)
+        # 1) Find the freshly-built extension (built by your CMake step)
+        candidates = glob.glob("build_python/pyglomap/*.so") + glob.glob(
+            "build/pyglomap/*.so"
+        )
+        if not candidates:
+            raise RuntimeError(
+                "No built extension .so found in build_python/pyglomap or build/pyglomap"
+            )
+        so_path = max(candidates, key=os.path.getmtime)
 
-# The information here can also be placed in setup.cfg - better separation of
-# logic and declaration, and simpler if you include description/version in a file.
+        # 2) Copy it into the package in the build/lib tree so it lands in the wheel
+        dest_dir = os.path.join(self.build_lib, "pyglomap")
+        os.makedirs(dest_dir, exist_ok=True)
+        shutil.copy2(so_path, dest_dir)
+
+
 setup(
     name="pyglomap",
     version="1.0.0",
@@ -19,6 +30,7 @@ setup(
     author_email="linfei.pan@inf.ethz.ch",
     description="Pybind11 bindings for GLOMAP",
     packages=["pyglomap"],
-    cmdclass={"install": CustomInstallCommand},
+    package_data={"pyglomap": ["*.so"]},  # include the copied .so
+    cmdclass={"build_py": build_py},
     zip_safe=False,
 )

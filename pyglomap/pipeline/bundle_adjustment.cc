@@ -24,11 +24,13 @@ py::dict RunBundleAdjustment(ViewGraph& view_graph,
   // Establish the maximum connected component
   view_graph.KeepLargestConnectedComponents(images);
 
-  // Undistort images
   BundleAdjuster ba_engine(options);
   ba_engine.Solve(view_graph, cameras, images, tracks);
 
   NormalizeReconstruction(cameras, images, tracks);
+
+  // Undistort images to repopulate features_undist with refined camera params
+  UndistortImages(cameras, images);
 
   py::dict output;
   output["cameras"] = cameras;
