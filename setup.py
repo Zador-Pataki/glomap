@@ -26,11 +26,11 @@ class build_py(_build_py):
 setup(
     name="pyglomap",
     version="1.0.0",
-    author="Linfei Pan",
-    author_email="linfei.pan@inf.ethz.ch",
+    author="Linfei Pan, Zador Pataki",
+    author_email="linfei.pan@inf.ethz.ch, zador.pataki@inf.ethz.ch",
     description="Pybind11 bindings for GLOMAP",
     packages=["pyglomap"],
-    package_data={"pyglomap": ["*.so"]},  # include the copied .so
+    package_data={"pyglomap": ["*.so"]},
     cmdclass={"build_py": build_py},
     zip_safe=False,
 )
