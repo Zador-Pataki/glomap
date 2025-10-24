@@ -13,6 +13,10 @@ void BindGlobalPositioning(py::module& m);
 void BindBundleAdjustment(py::module& m);
 void BindTrackFilter(py::module& m);
 void BindColmapIO(py::module& m);
+void BindTrackRetriangulation(py::module& m);
+void BindRelativePoseEstimation(py::module& m);
+void BindViewGraphManipulation(py::module& m);
+void BindViewGraphCalibration(py::module& m);
 
 void BindPipelines(py::module& m) {
   BindRotationAveraging(m);
@@ -21,4 +25,8 @@ void BindPipelines(py::module& m) {
   BindBundleAdjustment(m);
   BindTrackFilter(m);
   BindColmapIO(m);
+  BindTrackRetriangulation(m);
+  BindRelativePoseEstimation(m);
+  BindViewGraphManipulation(m);
+  BindViewGraphCalibration(m);
 }

@@ -276,6 +276,7 @@ bool GlobalMapper::Solve(const colmap::Database& database,
       RetriangulateTracks(
           options_.opt_triangulator, database, cameras, images, tracks);
       run_timer.PrintSeconds();
+      
 
       std::cout << "-------------------------------------" << std::endl;
       std::cout << "Running bundle adjustment ..." << std::endl;

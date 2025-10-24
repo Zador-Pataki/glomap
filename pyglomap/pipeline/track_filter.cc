@@ -51,6 +51,21 @@ py::dict RunFilterTracksByAngle(
   return output;
 }
 
+py::dict RunFilterTrackTriangulationAngle(
+    const ViewGraph& view_graph,
+    const std::unordered_map<image_t, Image>& images,
+    std::unordered_map<track_t, Track>& tracks,
+    double min_angle) {
+  int counter = TrackFilter::FilterTrackTriangulationAngle(
+      view_graph, images, tracks, min_angle);
+
+  py::dict output;
+  output["tracks"] = tracks;
+  output["counter"] = counter;
+
+  return output;
+}
+
 void BindTrackFilter(py::module& m) {
   m.def("filter_tracks_by_reprojection",
         &RunFilterTracksByReprojection,
@@ -70,4 +85,12 @@ void BindTrackFilter(py::module& m) {
         "tracks"_a,
         "max_angle_error"_a = 1.,
         "Filter tracks by angle error.");
+
+  m.def("filter_track_triangulation_angle",
+        &RunFilterTrackTriangulationAngle,
+        "view_graph"_a,
+        "images"_a,
+        "tracks"_a,
+        "min_angle"_a = 1.,
+        "Filter tracks by triangulation angle.");
 }

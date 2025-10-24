@@ -32,6 +32,7 @@ int TrackFilter::FilterTracksByReprojection(
         Eigen::Vector2d pt_reproj = pt_calc.head(2) / pt_calc(2);
         Eigen::Vector2d pt_dist;
         pt_dist = cameras.at(image.camera_id).ImgFromCam(pt_reproj);
+        
         reprojection_error = (pt_dist - image.features.at(feature_id)).norm();
       }
 

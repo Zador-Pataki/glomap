@@ -126,7 +126,6 @@ bool RetriangulateTracks(const TriangulatorOptions& options,
 
   // Convert the colmap data structures back to glomap data structures
   ConvertColmapToGlomap(*reconstruction_ptr, cameras, images, tracks);
-
   return true;
 }
 

@@ -45,7 +45,26 @@ void BindBundleAdjusterOptions(py::module& m) {
           },
           [](BundleAdjusterOptions& self, const int value) {
             self.solver_options.max_num_iterations = value;
-          });
+          })
+      .def("__repr__", [](const BundleAdjusterOptions& self) {
+        std::stringstream ss;
+        ss << "BundleAdjusterOptions(" << std::endl
+           << "  thres_loss_function=" << self.thres_loss_function << ","
+           << std::endl
+           << "  optimize_rotations=" << self.optimize_rotations << ","
+           << std::endl
+           << "  optimize_translation=" << self.optimize_translation << ","
+           << std::endl
+           << "  optimize_intrinsics=" << self.optimize_intrinsics << ","
+           << std::endl
+           << "  optimize_points=" << self.optimize_points << "," << std::endl
+           << "  min_num_view_per_track=" << self.min_num_view_per_track << ","
+           << std::endl
+           << "  max_num_iterations=" << self.solver_options.max_num_iterations
+           << std::endl
+           << ")";
+        return ss.str();
+      });
 
   MakeDataclass(PyBundleAdjusterOptions);
 }

@@ -48,6 +48,9 @@ void BindImagePair(py::module& m) {
       .def_readwrite(
           "is_valid", &ImagePair::is_valid, "Whether the image pair is valid.")
       .def_readwrite("weight", &ImagePair::weight, "The initial inlier rate.")
+      .def_readwrite("config",
+        &ImagePair::config,
+        "Geometric configuration (from colmap::TwoViewGeometry).")
       .def_property(
           "cam2_from_cam1",
           [](const ImagePair& self) -> Rigid3d { return self.cam2_from_cam1; },

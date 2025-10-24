@@ -51,6 +51,27 @@ void BindGlobalPositionerOptions(py::module& m) {
           },
           [](GlobalPositionerOptions& self, const int value) {
             self.solver_options.max_num_iterations = value;
-          });
+          })
+      .def("__repr__", [](const GlobalPositionerOptions& self) {
+        std::stringstream ss;
+        ss << "GlobalPositionerOptions(" << std::endl
+           << "  thres_loss_function=" << self.thres_loss_function << ","
+           << std::endl
+           << "  generate_random_positions=" << self.generate_random_positions
+           << "," << std::endl
+           << "  generate_random_points=" << self.generate_random_points << ","
+           << std::endl
+           << "  generate_scales=" << self.generate_scales << "," << std::endl
+           << "  optimize_positions=" << self.optimize_positions << ","
+           << std::endl
+           << "  optimize_points=" << self.optimize_points << "," << std::endl
+           << "  optimize_scales=" << self.optimize_scales << "," << std::endl
+           << "  min_num_view_per_track=" << self.min_num_view_per_track << ","
+           << std::endl
+           << "  max_num_iterations=" << self.solver_options.max_num_iterations
+           << std::endl
+           << ")";
+        return ss.str();
+      });
   MakeDataclass(PyGlobalPositionerOptions);
 }

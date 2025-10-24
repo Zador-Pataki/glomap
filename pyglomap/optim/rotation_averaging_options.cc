@@ -1,6 +1,8 @@
 
 #include "glomap/estimators/global_rotation_averaging.h"
 
+#include <sstream>
+
 #include "pyglomap/helpers.h"
 #include "pyglomap/pybind11_extension.h"
 #include <pybind11/eigen.h>
@@ -49,7 +51,25 @@ void BindRotationAveragerOptions(py::module& m) {
       .def_readwrite(
           "skip_initialization",
           &RotationEstimatorOptions::skip_initialization,
-          "Whether to skip initialization with Maximum Spanning Tree.");
+          "Whether to skip initialization with Maximum Spanning Tree.")
+      .def("__repr__", [](const RotationEstimatorOptions& self) {
+        std::stringstream ss;
+        ss << "RotationEstimatorOptions(" << std::endl
+           << "  max_num_l1_iterations=" << self.max_num_l1_iterations << ","
+           << std::endl
+           << "  l1_step_convergence_threshold="
+           << self.l1_step_convergence_threshold << "," << std::endl
+           << "  max_num_irls_iterations=" << self.max_num_irls_iterations << ","
+           << std::endl
+           << "  irls_step_convergence_threshold="
+           << self.irls_step_convergence_threshold << "," << std::endl
+           << "  irls_loss_parameter_sigma=" << self.irls_loss_parameter_sigma
+           << "," << std::endl
+           << "  use_weight=" << self.use_weight << "," << std::endl
+           << "  skip_initialization=" << self.skip_initialization << std::endl
+           << ")";
+        return ss.str();
+      });
 
   MakeDataclass(PyRotationEstimatorOptions);
 }
